@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,16 +20,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         initView();
-        webView.loadUrl("http://shanghai.baixing.com/");
+      //  webView.loadUrl("http://mobileangularui.com/demo/#/");//http://172.17.14.239:8080/MyWeatherServer/#
+//        webView.loadUrl("http://shanghai.baixing.com/");
         registerMessageReceiver();
     }
 
     private void initView() {
         webView = (WebView) findViewById(R.id.webView1);
+        webView.loadUrl("http://172.17.14.239:8080/MyWeatherServer/#");
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient(){
             //此方法设置在本app中访问web
             @Override
@@ -36,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
     private MessageReceiver mMessageReceiver;
