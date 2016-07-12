@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Log;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +24,6 @@ public class MyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent){
         Bundle bundle = intent.getExtras();
         Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + bundle.toString());
-
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
@@ -29,7 +31,7 @@ public class MyReceiver extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-           // processCustomMessage(context, bundle);
+            // processCustomMessage(context, bundle);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
@@ -59,6 +61,7 @@ public class MyReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
         }
     }
+
 
     private void receivingNotification(Context context, Bundle bundle){
         String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
