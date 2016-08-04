@@ -16,7 +16,7 @@ import android.webkit.WebViewClient;
 public class MainActivity extends AppCompatActivity {
 
     private WebView webView;
-
+    private String url = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +30,14 @@ public class MainActivity extends AppCompatActivity {
         registerMessageReceiver();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mMessageReceiver);
+    }
     private void initView() {
         webView = (WebView) findViewById(R.id.webView1);
-        webView.loadUrl("http://172.17.14.239:8080/MyWeatherServer/#");
+        webView.loadUrl("http://119.254.110.226:80/MyWeatherServer/#");//119.254.110.226  172.17.14.213
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient(){
             //此方法设置在本app中访问web

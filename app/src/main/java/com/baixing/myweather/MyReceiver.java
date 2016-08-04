@@ -9,6 +9,8 @@ import android.provider.Settings;
 import android.util.Log;
 
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +21,7 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
+    private String url =null;
 
     @Override
     public void onReceive(Context context, Intent intent){
@@ -70,6 +73,19 @@ public class MyReceiver extends BroadcastReceiver {
         Log.d(TAG, "message : " + message);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
         Log.d(TAG, "extras : " + extras);
+        if(extras != null &&!"".equals(extras)){
+            try{
+                NotificationInfo notificationInfo = new Gson().fromJson(extras,NotificationInfo.class);
+                Log.d(TAG,notificationInfo.getUrl());
+                url = notificationInfo.getUrl();
+            }catch (Exception e){
+                System.out.println(e);
+            }finally {
+                System.out.println("some error happen");
+            }
+
+        }
+
     }
 
     private void openNotification(Context context, Bundle bundle){
@@ -84,6 +100,7 @@ public class MyReceiver extends BroadcastReceiver {
         }
 
         Intent mIntent = new Intent(context, MainActivity.class);
+        mIntent.putExtra("url",url+"");
         mIntent.putExtras(bundle);
         mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(mIntent);
